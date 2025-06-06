@@ -6,16 +6,11 @@ import models
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 import pickle
+import db_seeder
 
 app = FastAPI(title="Clustering API")
-# initialize db
-models.Base.metadata.create_all(bind=engine)
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-db_dependency = Annotated[Session, Depends(get_db)]
+@app.on_event("startup")
+async def startup_event():
+    with SessionLocal() as db:
+        db_seeder.seeder(db)

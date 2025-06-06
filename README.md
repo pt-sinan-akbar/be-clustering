@@ -5,7 +5,7 @@ This project was developed as part of our thesis on comparing different clusteri
 
 ## Setup
 
-**1. Create a virtual environment**
+**1. Create a virtual environment (Python 3.11)**
 ```bash
 python -m venv venv
 ```
