@@ -10,7 +10,6 @@ class Algorithms(Base):
     # Relationships
     parameters = relationship("Parameters", back_populates="algorithm")
     metric_results = relationship("MetricResults", back_populates="algorithm")
-    customer_clusters = relationship("CustomerCluster", back_populates="algorithm")
     clustering_results = relationship("ClusteringResults", back_populates="algorithm")
 
 class Parameters(Base):
@@ -20,8 +19,14 @@ class Parameters(Base):
     name = Column(String, nullable=False)
     value = Column(String, nullable=False)
 
+
+    __table_args__ = (UniqueConstraint('algorithm_id', 'name', name='uc_algorithm_parameter'),)
+
     # Relationships
+    # many to one relationship with Algorithms
     algorithm = relationship("Algorithms", back_populates="parameters")
+
+    # one to many relationship with MetricResults
     metric_results = relationship("MetricResults", back_populates="parameter")
 
 class MetricResults(Base):
@@ -43,23 +48,11 @@ class Customers(Base):
     frequency = Column(Float, nullable=False)
     monetary = Column(Float, nullable=False)
     state = Column(String, nullable=False)
-
-    # Relationships
-    customer_clusters = relationship("CustomerCluster", back_populates="customer")
-
-class CustomerCluster(Base):
-    __tablename__ = 'customer_cluster'
-    id = Column(Integer, primary_key=True, index=True)
-    customer_id = Column(String, ForeignKey('customers.id'), nullable=False)
-    algorithm_id = Column(Integer, ForeignKey('algorithms.id'), nullable=False)
-    cluster = Column(Integer, nullable=False)
-
-    # one customer one cluster one algorithm
-    __table_args__ = (UniqueConstraint('customer_id', 'algorithm_id', name='uc_customer_algorithm'),)
-
-    # Relationships
-    customer = relationship("Customers", back_populates="customer_clusters")
-    algorithm = relationship("Algorithms", back_populates="customer_clusters")
+    dbscan_cluster = Column(Integer, nullable=True)
+    hierarchical_cluster = Column(Integer, nullable=True)
+    gmm_cluster = Column(Integer, nullable=True)
+    kmeans_cluster = Column(Integer, nullable=True)
+    kprototypes_cluster = Column(Integer, nullable=True)
 
 class ClusteringResults(Base):
     __tablename__ = 'clustering_results'
