@@ -19,27 +19,20 @@ class Parameters(Base):
     name = Column(String, nullable=False)
     value = Column(String, nullable=False)
 
-
     __table_args__ = (UniqueConstraint('algorithm_id', 'name', name='uc_algorithm_parameter'),)
 
-    # Relationships
     # many to one relationship with Algorithms
     algorithm = relationship("Algorithms", back_populates="parameters")
-
-    # one to many relationship with MetricResults
-    metric_results = relationship("MetricResults", back_populates="parameter")
 
 class MetricResults(Base):
     __tablename__ = 'metric_results'
     id = Column(Integer, primary_key=True, index=True)
     algorithm_id = Column(Integer, ForeignKey('algorithms.id'), nullable=False)
-    parameter_id = Column(Integer, ForeignKey('parameters.id'), nullable=False)
     metric_name = Column(String, nullable=False)
     metric_value = Column(Float, nullable=False)
 
     # Relationships
     algorithm = relationship("Algorithms", back_populates="metric_results")
-    parameter = relationship("Parameters", back_populates="metric_results")
 
 class Customers(Base):
     __tablename__ = 'customers'

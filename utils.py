@@ -1,7 +1,7 @@
-import pickle5 as pickle
+import pickle
     
 def import_pickle(pickle_location):
-    print("Importing " + pickle_location)
+    print("Importing ",  pickle_location)
     with open(pickle_location, 'rb') as dataset_file:
         dataset = pickle.load(dataset_file)
         return dataset
