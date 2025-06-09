@@ -29,6 +29,29 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 def seeder(db: Session):
     try:
+        # state_mapping = {
+        #     1: "North",
+        #     2: "Northeast",
+        #     3: "South",
+        #     4: "Southeast"
+        # }
+        #
+        # def map_state_column(df):
+        #     df["State"] = df["State"].map(state_mapping)
+        #     return df
+
+        def compare_customer_rows(*dataframes):
+            for i in range(len(dataframes) - 1):
+                df1 = dataframes[i]
+                df2 = dataframes[i + 1]
+                if not df1.equals(df2):
+                    print(f"Dataframes {i} and {i + 1} are not equal.")
+                    print("Differences:")
+                    print(df1.compare(df2))
+                else:
+                    print(f"Dataframes {i} and {i + 1} are equal.")
+
+
         algorithms = [
             {"name": "K-MEANS"},
             {"name": "K-PROTOTYPES"},
@@ -99,17 +122,12 @@ def seeder(db: Session):
         kprototypes_customers = utils.import_pickle(PKL_DIR / "kprototype_clean_result.pkl")
         rfmd_clean = utils.import_pickle(PKL_DIR / "rfmd_clean.pkl")
 
-        # Compare customer rows across files
-        def compare_customer_rows(*dataframes):
-            for i in range(len(dataframes) - 1):
-                df1 = dataframes[i]
-                df2 = dataframes[i + 1]
-                if not df1.equals(df2):
-                    print(f"Dataframes {i} and {i + 1} are not equal.")
-                    print("Differences:")
-                    print(df1.compare(df2))
-                else:
-                    print(f"Dataframes {i} and {i + 1} are equal.")
+        # # Map State column for all customer DataFrames
+        # dbscan_customers = map_state_column(dbscan_customers)
+        # hierarchical_customers = map_state_column(hierarchical_customers)
+        # gmm_customers = map_state_column(gmm_customers)
+        # kmeans_customers = map_state_column(kmeans_customers)
+        # kprototypes_customers = map_state_column(kprototypes_customers)
 
         # print all head
         print("DBSCAN Customers head:\n", dbscan_customers.head())
@@ -117,6 +135,7 @@ def seeder(db: Session):
         print("GMM Customers head:\n", gmm_customers.head())
         print("KMeans Customers head:\n", kmeans_customers.head())
         print("KPrototypes Customers head:\n", kprototypes_customers.head())
+        print("RFMD Clean head:\n", rfmd_clean.head())
 
         # copy
         rfmd_dummy = rfmd_clean.copy()

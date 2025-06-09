@@ -19,8 +19,8 @@ class Algorithm(AlgorithmBase):
     class Config:
         from_attributes = True
 
-@router.get("/algorithms", response_model=List[Algorithm])
-def getAll_algorithms(
+@router.get("/clustering/algorithms", response_model=List[Algorithm])
+def get_all_algorithms(
     skip: int = 0,
     db: Session = Depends(get_db)
 ):

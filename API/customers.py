@@ -30,8 +30,8 @@ class Customer(CustomerBase):
     class Config:
         from_attributes = True
 
-@router.get("/customers", response_model=List[Customer])
-def getAll_customers(
+@router.get("/clustering/customers", response_model=List[Customer])
+def get_all_customers(
     skip: int = 0,
     db: Session = Depends(get_db)
 ):

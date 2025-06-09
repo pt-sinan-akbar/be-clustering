@@ -27,10 +27,12 @@ class ClusteringResult(ClusteringResultBase):
     class Config:
         from_attributes = True
 
-@router.get("/clustering-results", response_model=List[ClusteringResult])
-def getAll_clustering_results(
+@router.get("/clustering/clustering-results/{algorithm_id}", response_model=List[ClusteringResult])
+def get_all_clustering_results(
     skip: int = 0,
+    algorithm_id: int = None,
     db: Session = Depends(get_db)
 ):
-    clustering_results = db.query(models.ClusteringResults).offset(skip).all()
-    return clustering_results 
+    query = db.query(models.ClusteringResults).filter(models.ClusteringResults.algorithm_id == algorithm_id)
+    clustering_results = query.offset(skip).all()
+    return clustering_results

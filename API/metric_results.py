@@ -21,10 +21,12 @@ class MetricResult(MetricResultBase):
     class Config:
         from_attributes = True
 
-@router.get("/metric-results", response_model=List[MetricResult])
-def getAll_metric_results(
+@router.get("/clustering/metric-results/{algorithm_id}", response_model=List[MetricResult])
+def get_all_metric_results(
     skip: int = 0,
+    algorithm_id: int = None,
     db: Session = Depends(get_db)
 ):
-    metric_results = db.query(models.MetricResults).offset(skip).all()
-    return metric_results 
+    query = db.query(models.MetricResults).filter(models.MetricResults.algorithm_id == algorithm_id)
+    metrics_results = query.offset(skip).all()
+    return metrics_results
