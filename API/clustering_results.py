@@ -28,7 +28,7 @@ class ClusteringResult(ClusteringResultBase):
         from_attributes = True
 
 @router.get("/clustering/clustering-results/{algorithm_id}", response_model=List[ClusteringResult])
-def get_all_clustering_results(
+def get_clustering_results(
     skip: int = 0,
     algorithm_id: int = None,
     db: Session = Depends(get_db)

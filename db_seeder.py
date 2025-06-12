@@ -29,17 +29,6 @@ db_dependency = Annotated[Session, Depends(get_db)]
 
 def seeder(db: Session):
     try:
-        # state_mapping = {
-        #     1: "North",
-        #     2: "Northeast",
-        #     3: "South",
-        #     4: "Southeast"
-        # }
-        #
-        # def map_state_column(df):
-        #     df["State"] = df["State"].map(state_mapping)
-        #     return df
-
         def compare_customer_rows(*dataframes):
             for i in range(len(dataframes) - 1):
                 df1 = dataframes[i]

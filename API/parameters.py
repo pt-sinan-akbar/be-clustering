@@ -22,7 +22,7 @@ class Parameter(ParameterBase):
         from_attributes = True
 
 @router.get("/clustering/parameters/{algorithm_id}", response_model=List[Parameter])
-def get_all_parameters(
+def get_parameters(
     algorithm_id: int,
     skip: int = 0,
     db: Session = Depends(get_db)

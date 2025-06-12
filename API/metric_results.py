@@ -22,7 +22,7 @@ class MetricResult(MetricResultBase):
         from_attributes = True
 
 @router.get("/clustering/metric-results/{algorithm_id}", response_model=List[MetricResult])
-def get_all_metric_results(
+def get_metric_results(
     skip: int = 0,
     algorithm_id: int = None,
     db: Session = Depends(get_db)
