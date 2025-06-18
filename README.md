@@ -65,3 +65,11 @@ The API documentation will be available at:
 ├── models.py        # SQLAlchemy models
 └── requirements.txt # Project dependencies
 ```
+
+## Docker Guide
+```bash
+git clone https://github.com/dta32/be-clustering.git
+cp .env_dummy .env # Update .env with your PostgreSQL credentials
+docker build -t clustering-api .
+docker run --name clustering-api-container -v $(pwd)/.env:/app/.env -d -p 8080:8080 clustering-api
+```
